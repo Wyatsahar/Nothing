@@ -1,0 +1,43 @@
+# panic/recover
+
+1. <u><b>recover() 必须搭配defer使用 </b></u>
+
+2. <b><u>defer一定要在可能引发panic的语句之前定义</u></b>
+
+
+
+```go
+func test1() {
+	fmt.Println("test1")
+}
+
+func test2() {
+	defer func() {
+		err := recover()
+		fmt.Println(err)
+		fmt.Println("尝试恢复错误 test2")
+	}()
+
+	panic("this is panic func test2")
+	fmt.Println("test2")
+
+}
+
+func test3() {
+	fmt.Println("test3")
+}
+
+
+    test1()
+    test2()
+    test3()
+    
+//test1
+//this is panic func test2
+//尝试恢复错误
+//test3
+
+```
+
+
+
